@@ -4,9 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/IBM/sarama"
 	"github.com/gofiber/fiber/v2"
+
+	_ "github.com/joho/godotenv/autoload"
 )
 
 type Comment struct {
@@ -38,7 +41,10 @@ func ConnectProducer(brokersUrl []string) (sarama.SyncProducer, error) {
 
 // Pushes message to a kafka topic
 func PushCommentToQueue(topic string, message []byte) error {
-	brokersUrl := []string{"localhost:29092"}
+
+	fmt.Println("Pushing to Queue...")
+
+	brokersUrl := []string{os.Getenv("KAFKA_URL")}
 
 	producer, err := ConnectProducer(brokersUrl)
 

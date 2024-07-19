@@ -7,12 +7,14 @@ import (
 	"syscall"
 
 	"github.com/IBM/sarama"
+
+	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {
 	topic := "comments"
 
-	consumer, err := connectConsumer([]string{"localhost:29092"})
+	consumer, err := connectConsumer([]string{os.Getenv("KAFKA_URL")})
 
 	if err != nil {
 		panic(err)
